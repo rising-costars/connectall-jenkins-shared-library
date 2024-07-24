@@ -27,9 +27,9 @@ def call(Map config = [:]){
         # Splitting the input text by space to separate commit ID and timestamp
         read -r commit_id timestamp <<< '$input_text'
 
-        formatted_date = '2024-01-01T01:01:01'
-        #formatted_date=$(date -d '$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
-        #formatted_date=$(date -j -f '%Y-%m-%d %H:%M:%S %z' '$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
+        #formatted_date = '2024-01-01T01:01:01'
+        #formatted_date=\$(date -d '$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
+        #formatted_date=\$(date -j -f '%Y-%m-%d %H:%M:%S %z' '$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
 
         # Constructing the JSON string
         json_str='{\'commitId\': \'$commit_id\', \'date\':\'$formatted_date\'}'
