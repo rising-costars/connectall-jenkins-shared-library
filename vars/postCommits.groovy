@@ -12,17 +12,14 @@ def call(Map config = [:]){
     commit_id="abc123"
     formatted_date="2024-01-01"
 
-    json=$(cat <<EOF
-                {
-                "appLinkName": "$_AUTOMATION_NAME",
-                "fields": {
-                    "CommitId": "$commit_id",
-                    "CommitTimestamp": "$formatted_date",
-                    "DeployId": "$_DEPLOY_ID"
-                }
-                }
-                EOF
-        )
+    json="{
+        \"appLinkName\": \"$_AUTOMATION_NAME\",
+        \"fields\": {
+            \"CommitId\": \"$commit_id\",
+            \"CommitTimestamp\": \"$formatted_date\",
+            \"DeployId\": \"$_DEPLOY_ID\"
+        }
+    }"
     echo "Json : \$json"
     """
     sh "echo Completed"
