@@ -13,8 +13,8 @@ def call(Map config = [:]){
     _GIT_PREV_COMMIT=${config.PrevSuccessBuildCommit}
     _GIT_CURR_COMMIT=${config.CurrentBuildCommit}
 
-    _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
-    _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
+    _CONNECTALL_UA_URL=${config.ConnectALL_Api_Url}
+    _CONNECTALL_API_KEY=${config.ConnectALL_Api_Key}
 
     #echo 'Automation Name : \$_AUTOMATION_NAME'
 
