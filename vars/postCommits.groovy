@@ -17,6 +17,22 @@ def call(Map config = [:]){
         # Constructing the JSON string
         json_str="{\"commitId\": \"$commit_id\", \"date\":\"$formatted_date\"}"
 
+        json=$(cat <<EOF
+        {\"appLinkName\":\"${config.automationName}\",
+          \"fields\": {
+            \"CommitId\":\"$commitId\",
+            \"CommitTimestamp\":\"$formatted_date\"
+          }
+        }
+        EOF
+        )
+
+      echo "Send JSON: $json"
+      echo "via ${config.CONNECTALL_API_URL}/connectall/api/2/postRecord?apikey=$CONNECTALL_API_KEY"
+
+      curl --header "Content-Type: application/json;charset=UTF-8" -X POST -d "$json" "${config.CONNECTALL_API_URL}/connectall/api/2/postRecord?apikey=${config.CONNECTALL_API_KEY}"
+      '''.stripIndent()
+
         echo $json_str
     done < commit_log
     '''
