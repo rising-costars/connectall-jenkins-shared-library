@@ -23,10 +23,9 @@ def call(Map config = [:]){
     # Reading each line from the file
     while IFS= read -r input_text; do
         # Splitting the input text by space to separate commit ID and timestamp
-        read -r commit_id timestamp <<< '\$input_text'
+        read -r commit_id timestamp <<< \$input_text
 
-        #formatted_date = '2024-01-01T01:01:01'
-        #formatted_date=\$(date -d '\$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
+        formatted_date=\$(date -d '\$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
         #formatted_date=\$(date -j -f '%Y-%m-%d %H:%M:%S %z' '\$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
 
         # Constructing the JSON string
