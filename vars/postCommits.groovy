@@ -7,7 +7,7 @@ def call(Map config = [:]){
     #!/bin/bash
 
     _AUTOMATION_NAME="${config.AutomationName}"
-    #echo "Automation Name :$_AUTOMATION_NAME"
+    echo "Automation Name :$_AUTOMATION_NAME"
     
     '''
     sh "echo Completed"
