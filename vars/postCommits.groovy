@@ -3,7 +3,6 @@ def call(Map config = [:]){
     sh 'git log --pretty=format:"%H %ad" --date=iso $GIT_PREVIOUS_COMMIT..$GIT_COMMIT > commit_log'
     sh 'echo >> commit_log'
     sh 'cat commit_log'
-    sh "export A_NAME=${config.automationName}"
     sh """
     #!/bin/bash
 
@@ -13,12 +12,6 @@ def call(Map config = [:]){
     _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
 
     #echo 'Automation Name : \$_AUTOMATION_NAME'
-
-
-    #export _AUTOMATION_NAME='SampleAutoamtion'
-    #export _DEPLOY_ID='abc123'
-    #export _CONNECTALL_UA_URL='https://connectall183.clarityrox.com/ua'
-    #export _CONNECTALL_API_KEY='def123123123123098'
 
     # Reading each line from the file
     while IFS= read -r input_text; do
@@ -31,7 +24,7 @@ def call(Map config = [:]){
         # Constructing the JSON string
         json_str='{\'commitId\': \'\$commit_id\', \'date\':\'\$formatted_date\'}'
 
-        json='{\'appLinkName\':\'\$_AUTOMATION_NAME\',\'fields\': {\'CommitId\':\'\$commitId\',\'CommitTimestamp\':\'\$formatted_date\',\'DeployId\': \'\$_DEPLOY_ID\'}}'
+        json='{\'appLinkName\':\'\$_AUTOMATION_NAME\',\'fields\': {\'CommitId\':\'\$commit_id\',\'CommitTimestamp\':\'\$formatted_date\',\'DeployId\': \'\$_DEPLOY_ID\'}}'
         
         echo \$json_str
         echo 'Send JSON: \$json'
