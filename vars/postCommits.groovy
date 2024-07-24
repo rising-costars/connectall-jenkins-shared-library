@@ -6,22 +6,28 @@ def call(Map config = [:]){
     sh """#!/bin/bash
     _AUTOMATION_NAME="${config.AutomationName}"
     _DEPLOY_ID="${config.DeployId}"
+
+    _GIT_REPO_LOC="${config.GitRepoLoc}"
+    
+    _CONNECTALL_UA_URL=${config.ConnectALL_Api_Url}
+    _CONNECTALL_API_KEY=${config.ConnectALL_Api_Key}
+    
     echo "Automation Name: \$_AUTOMATION_NAME"
     echo "Deploy ID: \$_DEPLOY_ID"
 
-    commit_id="abc123"
-    formatted_date="2024-01-01"
+    # Reading each line from the file
+    while IFS= read -r input_text; do
+        # Splitting the input text by space to separate commit ID and timestamp
+        read -r commit_id timestamp <<< \$input_text
 
-    json="{
-        \\"appLinkName\\": \"\$_AUTOMATION_NAME\",
-        &quot;fields&quot;": {
-            \"CommitId\": \"\$commit_id\",
-            \"CommitTimestamp\": \"\$formatted_date\",
-            \"DeployId\": \"\$_DEPLOY_ID\"
-        }
-    }"
+        formatted_date=\$(date -d \"\$timestamp\" +'%Y-%m-%dT%H:%M:%S%z')
+        #formatted_date=\$(date -j -f '%Y-%m-%d %H:%M:%S %z' '\$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
 
-    echo "Json : \$json"
+        json='{\'appLinkName\':\'\$_AUTOMATION_NAME\',\'fields\': {\'CommitId\':\'\$commit_id\',\'CommitTimestamp\':\'\$formatted_date\',\'DeployId\': \'\$_DEPLOY_ID\'}}'
+        
+        # Post to connectall
+        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
+    done < ${_GIT_REPO_LOC}\commit_log
     
     """
     sh "echo Completed"
