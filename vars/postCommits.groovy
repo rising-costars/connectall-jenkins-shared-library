@@ -7,10 +7,10 @@ def call(Map config = [:]){
     sh """
     #!/bin/bash
 
-    export _AUTOMATION_NAME=${config.automationName}
-    export _DEPLOY_ID=${config.deployId}
-    export _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
-    export _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
+     _AUTOMATION_NAME=${config.automationName}
+     _DEPLOY_ID=${config.deployId}
+     _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
+     _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
 
     #echo 'Automation Name : $_AUTOMATION_NAME'
 
