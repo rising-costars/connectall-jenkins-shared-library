@@ -16,10 +16,16 @@ def call(Map config = [:]){
     _CONNECTALL_API_KEY=${config.ConnectALL_Api_Key}
 
     _BUILD_START_TIME_INT=\${_BUILD_START_TIME%%.*}
-    _BUILD_END_TIME_INT=\${_BUILD_END_TIME%%.*}
+    _Formatted_Start_Date=\$(date -r \"\$_BUILD_START_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
     
-    _Formatted_Start_Date=\$(date -d \"\$_BUILD_START_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
-    _Formatted_End_Date=\$(date -d \"\$_BUILD_END_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
+    if [[ -n "\$_BUILD_END_TIME" ]]; then
+        _BUILD_END_TIME_INT=\${_BUILD_END_TIME%%.*}
+        _Formatted_End_Date=\$(date -r \"\$_BUILD_END_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
+    else
+        echo "_BUILD_END_TIME_INT is null or empty"
+    fi    
+
+    
 
     #echo 'Automation Name : \$_AUTOMATION_NAME'
     json="{&quot;appLinkName&quot;:&quot;\$_AUTOMATION_NAME&quot;,&quot;fields&quot;: {&quot;IsSuccessful&quot;:&quot;\$_IS_SUCCESSFUL&quot;,&quot;TimeCreated&quot;:&quot;\$_Formatted_Start_Date&quot;,&quot;TimeDeployed&quot;:&quot;\$_Formatted_End_Date&quot;,&quot;Component&quot;:&quot;\$_BUILD_COMPONENT&quot;,&quot;Id&quot;: &quot;\$_DEPLOY_ID&quot;}}"
