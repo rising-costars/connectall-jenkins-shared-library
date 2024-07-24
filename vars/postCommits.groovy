@@ -1,13 +1,18 @@
 def call(Map config = [:]){
-    sh 'touch commit_log'
-    sh 'git log --pretty=format:"%H %ad" --date=iso $GIT_PREVIOUS_COMMIT..$GIT_COMMIT > commit_log'
-    sh 'echo >> commit_log'
-    sh 'cat commit_log'
+    sh 'touch ${config.GitRepoLoc}/commit_log'
+    sh "cd ${config.GitRepoLoc}; git log --pretty=format:'%H %ad' --date=iso ${config.PrevSuccessBuildCommit}..${config.CurrentBuildCommit} > ${config.GitRepoLoc}/commit_log"
+    sh 'echo >> ${config.GitRepoLoc}/commit_log'
+    sh 'cat ${config.GitRepoLoc}/commit_log'
     sh """
     #!/bin/bash
 
-    _AUTOMATION_NAME=${config.automationName}
-    _DEPLOY_ID=${config.deployId}
+    _AUTOMATION_NAME=${config.AutomationName}
+    _DEPLOY_ID=${config.DeployId}
+
+    _GIT_REPO=${config.GitRepoLoc}
+    _GIT_PREV_COMMIT=${config.PrevSuccessBuildCommit}
+    _GIT_CURR_COMMIT=${config.CurrentBuildCommit}
+
     _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
     _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
 
@@ -27,7 +32,7 @@ def call(Map config = [:]){
         curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
       
       
-    done < commit_log
+    done < ${config.GitRepoLoc}/commit_log
     """
     sh 'echo Completed'
 }   
