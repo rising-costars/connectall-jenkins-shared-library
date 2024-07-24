@@ -1,7 +1,7 @@
 def call(Map config = [:]){
     sh 'touch commit_log'
     sh 'git log --pretty=format:"%H %ad" --date=iso $GIT_PREVIOUS_COMMIT..$GIT_COMMIT > commit_log'
-    echo '' >> commit_log
+    sh 'echo >> commit_log'
     sh 'cat commit_log'
     sh '''
     #!/bin/bash
