@@ -3,8 +3,8 @@ def call(Map config = [:]){
     sh 'git log --pretty=format:"%H %ad" --date=iso $GIT_PREVIOUS_COMMIT..$GIT_COMMIT > commit_log'
     sh 'echo >> commit_log'
     sh 'cat commit_log'
-    sh 'export A_NAME=${config.automationName}'
-    sh '''
+    sh "export A_NAME=${config.automationName}"
+    sh """
     #!/bin/bash
 
     echo "Automation Name : $A_NAME"
@@ -44,6 +44,6 @@ def call(Map config = [:]){
       
       
     done < commit_log
-    '''
+    """
     sh 'echo Completed'
 }   
