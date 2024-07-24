@@ -9,6 +9,20 @@ def call(Map config = [:]){
     echo "Automation Name: \$_AUTOMATION_NAME"
     echo "Deploy ID: \$_DEPLOY_ID"
 
+    commit_id="abc123"
+    formatted_date="2024-01-01"
+
+    json="{
+        \\"appLinkName\\": \"\$_AUTOMATION_NAME\",
+        &quot;fields&quot;": {
+            \"CommitId\": \"\$commit_id\",
+            \"CommitTimestamp\": \"\$formatted_date\",
+            \"DeployId\": \"\$_DEPLOY_ID\"
+        }
+    }"
+
+    echo "Json : \$json"
+    
     """
     sh "echo Completed"
 }   
