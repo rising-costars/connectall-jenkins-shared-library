@@ -13,14 +13,17 @@ def call(Map config = [:]){
     formatted_date="2024-01-01"
 
     json="{
-        \"appLinkName\": \"\$_AUTOMATION_NAME\",
-        \"fields\": {
+        \\"appLinkName\\": \"\$_AUTOMATION_NAME\",
+        &quot;fields&quot;": {
             \"CommitId\": \"\$commit_id\",
             \"CommitTimestamp\": \"\$formatted_date\",
             \"DeployId\": \"\$_DEPLOY_ID\"
         }
     }"
+
     echo "Json : \$json"
+    json_str=$(echo "\$json" | sed 's/&quot;/"/g')
+    echo "Json : \$json_str"
     """
     sh "echo Completed"
 }   
