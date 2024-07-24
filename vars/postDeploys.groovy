@@ -12,10 +12,14 @@ def call(Map config = [:]){
     _BUILD_END_TIME=${config.Build_Finish_Time}
 
     #echo 'Automation Name : \$_AUTOMATION_NAME'
-    json='{\'appLinkName\':\'\$_AUTOMATION_NAME\',\'fields\': {\'IsSuccessful\':\'\$_IS_SUCCESSFUL\',\'TimeCreated\':\'\$_BUILD_START_TIME\',\'TimeDeployed\':\'\$_BUILD_END_TIME\',\'Id\': \'\$_DEPLOY_ID\'}}'
+    json="{&quot;appLinkName&quot;:&quot;\$_AUTOMATION_NAME&quot;,&quot;fields&quot;: {&quot;IsSuccessful&quot;:&quot;\$_IS_SUCCESSFUL&quot;,&quot;TimeCreated&quot;:&quot;\$_BUILD_START_TIME&quot;,&quot;TimeDeployed&quot;:&quot;\$_BUILD_END_TIME&quot;,&quot;Id&quot;: &quot;\$_DEPLOY_ID&quot;}}"
 
-     # Post to connectall
-    curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
+    json_str=\$(echo \$json | sed 's/&quot;/"/g')
+    
+    echo "Json : \$json"
+    echo "Json_Formatted : \$json_str"
+    # Post to connectall
+    curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json_str\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
          
     """
     sh 'echo Completed'
