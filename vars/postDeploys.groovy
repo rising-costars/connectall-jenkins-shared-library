@@ -3,16 +3,21 @@ def call(Map config = [:]){
     #!/bin/bash
 
     
-    _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
-    _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
     _AUTOMATION_NAME=${config.AutomationName}
+    
     _DEPLOY_ID=${config.DeployId}
-    _IS_SUCCESSFUL=${config.Build_Result}
-    _BUILD_START_TIME=${config.Build_Start_Time}
-    _BUILD_END_TIME=${config.Build_Finish_Time}
+    _IS_SUCCESSFUL=${config.BuildResult}
+    
+    _BUILD_COMPONENT=${config.BuildComponent}
+    _BUILD_START_TIME=${config.BuildStartTime}
+    _BUILD_END_TIME=${config.BuildFinishTime}
+    
+    _CONNECTALL_UA_URL=${config.ConnectALL_Api_Url}
+    _CONNECTALL_API_KEY=${config.ConnectALL_Api_Key}
+    
 
     #echo 'Automation Name : \$_AUTOMATION_NAME'
-    json="{&quot;appLinkName&quot;:&quot;\$_AUTOMATION_NAME&quot;,&quot;fields&quot;: {&quot;IsSuccessful&quot;:&quot;\$_IS_SUCCESSFUL&quot;,&quot;TimeCreated&quot;:&quot;\$_BUILD_START_TIME&quot;,&quot;TimeDeployed&quot;:&quot;\$_BUILD_END_TIME&quot;,&quot;Id&quot;: &quot;\$_DEPLOY_ID&quot;}}"
+    json="{&quot;appLinkName&quot;:&quot;\$_AUTOMATION_NAME&quot;,&quot;fields&quot;: {&quot;IsSuccessful&quot;:&quot;\$_IS_SUCCESSFUL&quot;,&quot;TimeCreated&quot;:&quot;\$_BUILD_START_TIME&quot;,&quot;TimeDeployed&quot;:&quot;\$_BUILD_END_TIME&quot;,&quot;Component&quot;:&quot;\$_BUILD_COMPONENT&quot;,&quot;Id&quot;: &quot;\$_DEPLOY_ID&quot;}}"
 
     json_str=\$(echo \$json | sed 's/&quot;/"/g')
     
