@@ -8,6 +8,22 @@ def call(Map config = [:]){
     _DEPLOY_ID="${config.DeployId}"
     echo "Automation Name: \$_AUTOMATION_NAME"
     echo "Deploy ID: \$_DEPLOY_ID"
+
+    commit_id="abc123"
+    formatted_date="2024-01-01"
+
+    json=$(cat <<EOF
+                {
+                "appLinkName": "$_AUTOMATION_NAME",
+                "fields": {
+                    "CommitId": "$commit_id",
+                    "CommitTimestamp": "$formatted_date",
+                    "DeployId": "$_DEPLOY_ID"
+                }
+                }
+                EOF
+        )
+    echo "Json : \$json"
     """
     sh "echo Completed"
 }   
