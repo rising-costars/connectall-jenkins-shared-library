@@ -30,7 +30,7 @@ def call(Map config = [:]){
         echo "Json : \$json"
         echo "Json_Formatted : \$json_str"
         # Post to connectall
-        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
+        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json_str\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
     done < "\$_GIT_REPO_LOC/commit_log"
     
     """

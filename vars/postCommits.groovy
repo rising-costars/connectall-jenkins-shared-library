@@ -23,10 +23,14 @@ def call(Map config = [:]){
         formatted_date=\$(date -d \"\$timestamp\" +'%Y-%m-%dT%H:%M:%S%z')
         #formatted_date=\$(date -j -f '%Y-%m-%d %H:%M:%S %z' '\$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
 
-        json='{\'appLinkName\':\'\$_AUTOMATION_NAME\',\'fields\': {\'CommitId\':\'\$commit_id\',\'CommitTimestamp\':\'\$formatted_date\',\'DeployId\': \'\$_DEPLOY_ID\'}}'
+        json="{\'appLinkName\':\'\$_AUTOMATION_NAME\',\'fields\': {\'CommitId\':\'\$commit_id\',\'CommitTimestamp\':\'\$formatted_date\',\'DeployId\': \'\$_DEPLOY_ID\'}}"
+        json2="{&quot;appLinkName&quot;:&quot;\$_AUTOMATION_NAME&quot;,&quot;fields&quot;: {&quot;CommitId&quot;:&quot;\$commit_id&quot;,&quot;CommitTimestamp&quot;:&quot;\$formatted_date&quot;,&quot;DeployId&quot;: &quot;\$_DEPLOY_ID&quot;}}"
+        json_str=\$(echo \$json2 | sed 's/&quot;/"/g')
         
+        echo "Json : \$json"
+        echo "Json_Formatted : \$json_str"
         # Post to connectall
-        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
+        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d \"\$json_str\" \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
     done < "\$_GIT_REPO_LOC/commit_log"
     
     """
