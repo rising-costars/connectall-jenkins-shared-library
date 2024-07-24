@@ -7,10 +7,10 @@ def call(Map config = [:]){
     sh """
     #!/bin/bash
 
-    export _AUTOMATION_NAME=${config.automationName}
-    export _DEPLOY_ID=${config.deployId}
-    export _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
-    export _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
+    _AUTOMATION_NAME=${config.automationName}
+    _DEPLOY_ID=${config.deployId}
+    _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
+    _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
 
     #echo 'Automation Name : \$_AUTOMATION_NAME'
 
@@ -39,7 +39,7 @@ def call(Map config = [:]){
         echo 'via \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY'
         
         # Post to connectall
-        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d '\$json' '\$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY'
+        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d '\$json' \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY
       
       
     done < commit_log
