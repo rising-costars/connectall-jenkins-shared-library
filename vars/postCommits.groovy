@@ -6,15 +6,15 @@ def call(Map config = [:]){
     sh '''
     #!/bin/bash
 
-    #_AUTOMATION_NAME = ${config.automationName}
-    #_DEPLOY_ID = ${config.deployId}
-    #_CONNECTALL_UA_URL = ${config.CONNECTALL_API_URL}
-    #_CONNECTALL_API_KEY = ${config.CONNECTALL_API_KEY}
+    #_AUTOMATION_NAME=${config.automationName}
+    #_DEPLOY_ID=${config.deployId}
+    #_CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
+    #_CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
 
-    export _AUTOMATION_NAME = "SampleAutoamtion"
-    export _DEPLOY_ID = "abc123"
-    export _CONNECTALL_UA_URL = "https://connectall183.clarityrox.com/ua"
-    export _CONNECTALL_API_KEY = "def123123123123098"
+    export _AUTOMATION_NAME="SampleAutoamtion"
+    export _DEPLOY_ID="abc123"
+    export _CONNECTALL_UA_URL="https://connectall183.clarityrox.com/ua"
+    export _CONNECTALL_API_KEY="def123123123123098"
 
     # Reading each line from the file
     while IFS= read -r input_text; do
