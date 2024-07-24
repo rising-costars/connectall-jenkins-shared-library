@@ -3,12 +3,11 @@ def call(Map config = [:]){
     sh "git --git-dir=${config.GitRepoLoc}/.git log --pretty=format:'%H %ad' --date=iso ${config.PrevSuccessBuildCommit}..${config.CurrentBuildCommit} > ${config.GitRepoLoc}/commit_log"
     sh "echo >> ${config.GitRepoLoc}/commit_log"
     sh "cat ${config.GitRepoLoc}/commit_log"
-    sh '''
-    #!/bin/bash
-
+    sh """#!/bin/bash
     _AUTOMATION_NAME="${config.AutomationName}"
-    echo "Automation Name :$_AUTOMATION_NAME"
-    
-    '''
+    _DEPLOY_ID="${config.DeployId}"
+    echo "Automation Name: \$_AUTOMATION_NAME"
+    echo "Deploy ID: \$_DEPLOY_ID"
+    """
     sh "echo Completed"
 }   
