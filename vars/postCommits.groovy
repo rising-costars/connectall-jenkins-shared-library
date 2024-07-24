@@ -6,6 +6,16 @@ def call(Map config = [:]){
     sh '''
     #!/bin/bash
 
+    #_AUTOMATION_NAME = ${config.automationName}
+    #_DEPLOY_ID = ${config.deployId}
+    #_CONNECTALL_UA_URL = ${config.CONNECTALL_API_URL}
+    #_CONNECTALL_API_KEY = ${config.CONNECTALL_API_KEY}
+
+     _AUTOMATION_NAME = "SampleAutoamtion"
+    _DEPLOY_ID = "abc123"
+    _CONNECTALL_UA_URL = "https://connectall183.clarityrox.com/ua"
+    _CONNECTALL_API_KEY = "def123123123123098"
+
     # Reading each line from the file
     while IFS= read -r input_text; do
         # Splitting the input text by space to separate commit ID and timestamp
@@ -17,14 +27,14 @@ def call(Map config = [:]){
         # Constructing the JSON string
         json_str="{\"commitId\": \"$commit_id\", \"date\":\"$formatted_date\"}"
 
-        json="{\"appLinkName\":\"${config.automationName}\",\"fields\": {\"CommitId\":\"$commitId\",\"CommitTimestamp\":\"$formatted_date\",\"DeployId\": \"${config.deployId}\"}}"
+        json="{\"appLinkName\":\"$_AUTOMATION_NAME\",\"fields\": {\"CommitId\":\"$commitId\",\"CommitTimestamp\":\"$formatted_date\",\"DeployId\": \"$_DEPLOY_ID\"}}"
         
         echo $json_str
         echo "Send JSON: $json"
-        echo "via ${config.CONNECTALL_API_URL}/connectall/api/2/postRecord?apikey=$CONNECTALL_API_KEY"
+        echo "via $_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=$_CONNECTALL_API_KEY"
         
         # Post to connectall
-        curl --header "Content-Type: application/json;charset=UTF-8" -X POST -d "$json" "${config.CONNECTALL_API_URL}/connectall/api/2/postRecord?apikey=${config.CONNECTALL_API_KEY}"
+        curl --header "Content-Type: application/json;charset=UTF-8" -X POST -d "$json" "_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=$_CONNECTALL_API_KEY"
       
       
     done < commit_log
