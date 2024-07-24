@@ -21,7 +21,8 @@ def call(Map config = [:]){
         {\"appLinkName\":\"${config.automationName}\",
           \"fields\": {
             \"CommitId\":\"$commitId\",
-            \"CommitTimestamp\":\"$formatted_date\"
+            \"CommitTimestamp\":\"$formatted_date\",
+            \"DeployId\": \"${config.deployId}\"
           }
         }
         EOF
