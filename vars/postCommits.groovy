@@ -7,12 +7,12 @@ def call(Map config = [:]){
     sh """
     #!/bin/bash
 
-     _AUTOMATION_NAME=${config.automationName}
-     _DEPLOY_ID=${config.deployId}
-     _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
-     _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
+    export _AUTOMATION_NAME=${config.automationName}
+    export _DEPLOY_ID=${config.deployId}
+    export _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
+    export _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
 
-    #echo 'Automation Name : $_AUTOMATION_NAME'
+    #echo 'Automation Name : \$_AUTOMATION_NAME'
 
 
     #export _AUTOMATION_NAME='SampleAutoamtion'
@@ -23,23 +23,23 @@ def call(Map config = [:]){
     # Reading each line from the file
     while IFS= read -r input_text; do
         # Splitting the input text by space to separate commit ID and timestamp
-        read -r commit_id timestamp <<< '$input_text'
+        read -r commit_id timestamp <<< '\$input_text'
 
         #formatted_date = '2024-01-01T01:01:01'
-        #formatted_date=\$(date -d '$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
-        #formatted_date=\$(date -j -f '%Y-%m-%d %H:%M:%S %z' '$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
+        #formatted_date=\$(date -d '\$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
+        #formatted_date=\$(date -j -f '%Y-%m-%d %H:%M:%S %z' '\$timestamp' +'%Y-%m-%dT%H:%M:%S%z')
 
         # Constructing the JSON string
-        json_str='{\'commitId\': \'$commit_id\', \'date\':\'$formatted_date\'}'
+        json_str='{\'commitId\': \'\$commit_id\', \'date\':\'\$formatted_date\'}'
 
-        json='{\'appLinkName\':\'$_AUTOMATION_NAME\',\'fields\': {\'CommitId\':\'$commitId\',\'CommitTimestamp\':\'$formatted_date\',\'DeployId\': \'$_DEPLOY_ID\'}}'
+        json='{\'appLinkName\':\'\$_AUTOMATION_NAME\',\'fields\': {\'CommitId\':\'\$commitId\',\'CommitTimestamp\':\'\$formatted_date\',\'DeployId\': \'\$_DEPLOY_ID\'}}'
         
-        echo $json_str
-        echo 'Send JSON: $json'
-        echo 'via $_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=$_CONNECTALL_API_KEY'
+        echo \$json_str
+        echo 'Send JSON: \$json'
+        echo 'via \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY'
         
         # Post to connectall
-        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d '$json' '$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=$_CONNECTALL_API_KEY'
+        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d '$json' '\$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY'
       
       
     done < commit_log
