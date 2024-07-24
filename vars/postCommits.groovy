@@ -4,23 +4,23 @@ def call(Map config = [:]){
     sh 'echo >> commit_log'
     sh 'cat commit_log'
     sh "export A_NAME=${config.automationName}"
-    sh """
+    sh '''
     #!/bin/bash
 
     echo "Automation Name : $A_NAME"
 
-    export _AUTOMATION_NAME=${config.automationName}
-    export _DEPLOY_ID=${config.deployId}
-    export _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
-    export _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
+    #export _AUTOMATION_NAME=${config.automationName}
+    #export _DEPLOY_ID=${config.deployId}
+    #export _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
+    #export _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
 
-    echo "Automation Name : $_AUTOMATION_NAME"
+    #echo "Automation Name : $_AUTOMATION_NAME"
 
 
-    #export _AUTOMATION_NAME="SampleAutoamtion"
-    #export _DEPLOY_ID="abc123"
-    #export _CONNECTALL_UA_URL="https://connectall183.clarityrox.com/ua"
-    #export _CONNECTALL_API_KEY="def123123123123098"
+    export _AUTOMATION_NAME="SampleAutoamtion"
+    export _DEPLOY_ID="abc123"
+    export _CONNECTALL_UA_URL="https://connectall183.clarityrox.com/ua"
+    export _CONNECTALL_API_KEY="def123123123123098"
 
     # Reading each line from the file
     while IFS= read -r input_text; do
@@ -44,6 +44,6 @@ def call(Map config = [:]){
       
       
     done < commit_log
-    """
+    '''
     sh 'echo Completed'
 }   
