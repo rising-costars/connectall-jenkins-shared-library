@@ -39,7 +39,7 @@ def call(Map config = [:]){
         echo 'via \$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY'
         
         # Post to connectall
-        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d '$json' '\$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY'
+        curl --header 'Content-Type: application/json;charset=UTF-8' -X POST -d '\$json' '\$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=\$_CONNECTALL_API_KEY'
       
       
     done < commit_log
