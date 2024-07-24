@@ -13,11 +13,11 @@ def call(Map config = [:]){
     formatted_date="2024-01-01"
 
     json="{
-        \"appLinkName\": \"$_AUTOMATION_NAME\",
+        \"appLinkName\": \"\$_AUTOMATION_NAME\",
         \"fields\": {
-            \"CommitId\": \"$commit_id\",
-            \"CommitTimestamp\": \"$formatted_date\",
-            \"DeployId\": \"$_DEPLOY_ID\"
+            \"CommitId\": \"\$commit_id\",
+            \"CommitTimestamp\": \"\$formatted_date\",
+            \"DeployId\": \"\$_DEPLOY_ID\"
         }
     }"
     echo "Json : \$json"
