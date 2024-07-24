@@ -3,18 +3,24 @@ def call(Map config = [:]){
     sh 'git log --pretty=format:"%H %ad" --date=iso $GIT_PREVIOUS_COMMIT..$GIT_COMMIT > commit_log'
     sh 'echo >> commit_log'
     sh 'cat commit_log'
+    sh 'export A_NAME=${config.automationName}'
     sh '''
     #!/bin/bash
 
-    #_AUTOMATION_NAME=${config.automationName}
-    #_DEPLOY_ID=${config.deployId}
-    #_CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
-    #_CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
+    echo "Automation Name : $A_NAME"
 
-    export _AUTOMATION_NAME="SampleAutoamtion"
-    export _DEPLOY_ID="abc123"
-    export _CONNECTALL_UA_URL="https://connectall183.clarityrox.com/ua"
-    export _CONNECTALL_API_KEY="def123123123123098"
+    export _AUTOMATION_NAME=${config.automationName}
+    export _DEPLOY_ID=${config.deployId}
+    export _CONNECTALL_UA_URL=${config.CONNECTALL_API_URL}
+    export _CONNECTALL_API_KEY=${config.CONNECTALL_API_KEY}
+
+    echo "Automation Name : $_AUTOMATION_NAME"
+
+
+    #export _AUTOMATION_NAME="SampleAutoamtion"
+    #export _DEPLOY_ID="abc123"
+    #export _CONNECTALL_UA_URL="https://connectall183.clarityrox.com/ua"
+    #export _CONNECTALL_API_KEY="def123123123123098"
 
     # Reading each line from the file
     while IFS= read -r input_text; do
@@ -34,7 +40,7 @@ def call(Map config = [:]){
         echo "via $_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=$_CONNECTALL_API_KEY"
         
         # Post to connectall
-        curl --header "Content-Type: application/json;charset=UTF-8" -X POST -d "$json" "_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=$_CONNECTALL_API_KEY"
+        curl --header "Content-Type: application/json;charset=UTF-8" -X POST -d "$json" "$_CONNECTALL_UA_URL/connectall/api/2/postRecord?apikey=$_CONNECTALL_API_KEY"
       
       
     done < commit_log
