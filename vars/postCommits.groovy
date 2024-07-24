@@ -23,10 +23,11 @@ def call(Map config = [:]){
         # Splitting the input text by space to separate commit ID and timestamp
         read -r commit_id timestamp <<< \$input_text
 
-        formatted_date=\$(date -d \"\$timestamp\" +"%Y-%m-%dT%H:%M:%S%z")
-        #formatted_date=\$(date -j -f "%Y-%m-%d %H:%M:%S %z" "\$timestamp" +"%Y-%m-%dT%H:%M:%S%z")
+        formatted_date=\$(date -d \"\$timestamp\" +'%Y-%m-%dT%H:%M:%S%z)
+        #formatted_date=\$(date -j -f '%Y-%m-%d %H:%M:%S %z' "\$timestamp" +'%Y-%m-%dT%H:%M:%S%z')
 
-        #json="{\"appLinkName\":\"\$_AUTOMATION_NAME\",\"fields\": {\"CommitId\":\"\$commit_id\",\"CommitTimestamp\":\"\$formatted_date\",\"DeployId\": \"\$_DEPLOY_ID\"}}"
+        json_str="{\"appLinkName\":\"\$_AUTOMATION_NAME\",\"fields\": {\"CommitId\":\"\$commit_id\",\"CommitTimestamp\":\"\$formatted_date\",\"DeployId\": \"\$_DEPLOY_ID\"}}"
+        
         json=$(cat <<EOF
                 {
                 "appLinkName": "$_AUTOMATION_NAME",
