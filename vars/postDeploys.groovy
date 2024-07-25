@@ -16,7 +16,7 @@ def call(Map config = [:]){
     _CONNECTALL_API_KEY=${config.ConnectALL_Api_Key}
 
     _BUILD_START_TIME_INT=\$((\$_BUILD_START_TIME / 1000))
-    _Formatted_Start_Date=\$(date -d \"\$_BUILD_START_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
+    _Formatted_Start_Date=\$(date --date=\"@\$_BUILD_START_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
     # _Formatted_Start_Date=\$(date -j -f "%s" "\$_BUILD_START_TIME_INT" +"%Y-%m-%dT%H:%M:%S%z")
     
     if [[ -n "\$_BUILD_END_TIME" ]]; then
