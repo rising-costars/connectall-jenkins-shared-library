@@ -19,13 +19,8 @@ def call(Map config = [:]){
     _Formatted_Start_Date=\$(date --date=\"@\$_BUILD_START_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
     # _Formatted_Start_Date=\$(date -j -f "%s" "\$_BUILD_START_TIME_INT" +"%Y-%m-%dT%H:%M:%S%z")
     
-    if [[ -n "\$_BUILD_END_TIME" ]]; then
-        _BUILD_END_TIME_INT=\${_BUILD_END_TIME%%.*}
-        _Formatted_End_Date=\$(date -r \"\$_BUILD_END_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
-    else
-        echo "_BUILD_END_TIME_INT is null or empty"
-    fi    
-
+    _BUILD_END_TIME_INT=\$((\$_BUILD_END_TIME / 1000))
+    _Formatted_End_Date=\$(date --date=\"@\$_BUILD_END_TIME_INT\" +'%Y-%m-%dT%H:%M:%S%z')
     
 
     #echo 'Automation Name : \$_AUTOMATION_NAME'
